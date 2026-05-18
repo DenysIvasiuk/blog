@@ -6,6 +6,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// 👇 ДОДАЄМО ЛАБУ 2
+Route::get('/lab2', function () {
+    return view('lab2');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
