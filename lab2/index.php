@@ -1,112 +1,182 @@
 <?php
 
-echo "<h2>Lab 2 - Arrays</h2>";
+echo "<h1>Lab 2 - Arrays processing</h1>";
 
-// 1. Добуток масиву
-$arr1 = [2, 3, 4, 5];
-$product = 1;
-foreach ($arr1 as $num) {
-    $product *= $num;
+// 1
+echo "<h3>Task 1 - Product of numbers</h3>";
+
+$numbers = array_map('intval', explode(",", "1,2,3,4,5"));
+
+$result = 1;
+foreach ($numbers as $value) {
+    $result *= $value;
 }
-echo "1. Product: $product <br>";
 
-// 2. Досконалі числа
-function isPerfect($n) {
+echo "<p>Result: $result</p>";
+
+
+// 2
+echo "<h3>Task 2 - Perfect numbers search</h3>";
+
+function checkPerfect($num)
+{
     $sum = 0;
-    for ($i = 1; $i < $n; $i++) {
-        if ($n % $i == 0) $sum += $i;
+
+    for ($i = 1; $i < $num; $i++) {
+        if ($num % $i === 0) {
+            $sum += $i;
+        }
     }
-    return $sum == $n;
+
+    return $sum === $num;
 }
 
-$arr2 = [];
+$list = [];
 for ($i = 0; $i < 15; $i++) {
-    $arr2[] = rand(1, 1000);
+    $list[] = rand(1, 1000);
 }
 
-echo "2. Perfect numbers: ";
-foreach ($arr2 as $num) {
-    if (isPerfect($num)) echo $num . " ";
-}
-echo "<br>";
+$found = [];
 
-// 3. Нулі
-$arr3 = [0, 2, 0, 5, 0, 7];
-$countZero = 0;
-foreach ($arr3 as $num) {
-    if ($num == 0) $countZero++;
+foreach ($list as $value) {
+    if (checkPerfect($value)) {
+        $found[] = $value;
+    }
 }
-echo "3. Zeros: $countZero <br>";
 
-// 4. Сума квадратів непарних
-$arr4 = [];
+echo "<p>" . (count($found) ? implode(" | ", $found) : "No perfect numbers") . "</p>";
+
+
+// 3
+echo "<h3>Task 3 - Zero counter</h3>";
+
+$data = [0, 1, 0, 5, 0, 3];
+
+$zeros = 0;
+
+for ($i = 0; $i < count($data); $i++) {
+    if ($data[$i] === 0) {
+        $zeros++;
+    }
+}
+
+echo "<p>Zeros found: $zeros</p>";
+
+
+// 4
+echo "<h3>Task 4 - Odd squares sum</h3>";
+
+$nums = [];
+
 for ($i = 0; $i < 20; $i++) {
-    $arr4[] = rand(1, 50);
+    $nums[] = rand(1, 50);
 }
 
-$sum = 0;
-foreach ($arr4 as $num) {
-    if ($num % 2 != 0) $sum += $num * $num;
+$total = 0;
+
+foreach ($nums as $n) {
+    if ($n % 2 !== 0) {
+        $total += pow($n, 2);
+    }
 }
-echo "4. Sum squares odd: $sum <br>";
 
-// 5. swap first last
-$arr5 = [1, 2, 3, 4, 5, 6, 7, 8];
-$temp = $arr5[0];
-$arr5[0] = $arr5[count($arr5)-1];
-$arr5[count($arr5)-1] = $temp;
-echo "5. Swapped array: ";
-print_r($arr5);
-echo "<br>";
+echo "<p>Sum: $total</p>";
 
-// 6. average positive
-$arr6 = [];
+
+// 5
+echo "<h3>Task 5 - Swap edges</h3>";
+
+$edge = [1,2,3,4,5,6,7,8];
+
+$tmp = $edge[0];
+$edge[0] = $edge[array_key_last($edge)];
+$edge[array_key_last($edge)] = $tmp;
+
+echo "<p>" . implode(", ", $edge) . "</p>";
+
+
+// 6
+echo "<h3>Task 6 - Positive average</h3>";
+
+$randNums = [];
+
 for ($i = 0; $i < 10; $i++) {
-    $arr6[] = rand(-50, 50);
+    $randNums[] = rand(-50, 50);
 }
 
-$sum = 0;
-$count = 0;
-foreach ($arr6 as $num) {
-    if ($num > 0) {
-        $sum += $num;
-        $count++;
+$sumPos = 0;
+$countPos = 0;
+
+foreach ($randNums as $val) {
+    if ($val > 0) {
+        $sumPos += $val;
+        $countPos++;
     }
 }
-echo "6. Avg positive: " . ($count ? $sum/$count : 0) . "<br>";
 
-// 7. email
-$name = "Гарбузюк Олег";
-$name = mb_strtolower($name);
-$parts = explode(" ", $name);
-$email = $parts[0] . "." . $parts[1] . "@example.com";
-echo "7. Email: $email <br>";
+$average = $countPos ? round($sumPos / $countPos, 2) : 0;
 
-// 8. divisible 400
-$year = 1600;
-echo "8. Divisible by 400: " . ($year % 400 == 0 ? "Yes" : "No") . "<br>";
+echo "<p>Average: $average</p>";
 
-// 9. product + odd indexes
-$arr9 = [];
+
+// 7
+echo "<h3>Task 7 - Email generator</h3>";
+
+$fullName = "Гарбузюк Олег";
+
+$fullName = mb_strtolower($fullName, "UTF-8");
+
+[$surname, $name] = explode(" ", $fullName);
+
+$email = $surname . "." . $name . "@example.com";
+
+echo "<p>$email</p>";
+
+
+// 8
+echo "<h3>Task 8 - Divisible by 400</h3>";
+
+$y = 1600;
+
+echo "<p>" . ($y % 400 === 0 ? "YES" : "NO") . "</p>";
+
+
+// 9
+echo "<h3>Task 9 - Index operations</h3>";
+
+$array = [];
+
 for ($i = 0; $i < 10; $i++) {
-    $arr9[] = rand(0, 100);
+    $array[] = rand(0, 100);
 }
 
-$product = 1;
-echo "9. Odd index elements: ";
-for ($i = 0; $i < count($arr9); $i++) {
-    if ($i % 2 != 0 && $arr9[$i] > 0) {
-        echo $arr9[$i] . " ";
+$mul = 1;
+$oddIndexValues = [];
+
+foreach ($array as $index => $value) {
+
+    if ($index % 2 === 0 && $value > 0) {
+        $mul *= $value;
     }
-    if ($i % 2 == 0 && $arr9[$i] > 0) {
-        $product *= $arr9[$i];
+
+    if ($index % 2 !== 0 && $value > 0) {
+        $oddIndexValues[] = $value;
     }
 }
-echo "<br>Product even index >0: $product <br>";
 
-// 10. leap year
+echo "<p>Odd index values: " . implode(", ", $oddIndexValues) . "</p>";
+echo "<p>Product: $mul</p>";
+
+
+// 10
+echo "<h3>Task 10 - Leap year check</h3>";
+
 $year = 2024;
-$isLeap = ($year % 4 == 0 && $year % 100 != 0) || ($year % 400 == 0);
-echo "10. Leap year: " . ($isLeap ? "Yes" : "No");
+
+$isLeap =
+    ($year % 4 === 0 && $year % 100 !== 0) ||
+    ($year % 400 === 0);
+
+echo "<p>" . ($isLeap ? "Leap year" : "Not leap year") . "</p>";
 
 ?>
