@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RestTestController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// 👇 ДОДАЄМО ЛАБУ 2
+// 👈ДОДАЄМО ЛАБУ 2
 Route::get('/lab2', function () {
     return view('lab2');
 });
@@ -20,3 +21,5 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::apiResource('rest', RestTestController::class)->names('restTest');
