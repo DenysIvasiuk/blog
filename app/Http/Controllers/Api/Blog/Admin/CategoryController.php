@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api\Blog\Admin;
 
 use App\Models\BlogCategory;
+use App\Http\Requests\BlogCategoryUpdateRequest;
+use App\Http\Requests\BlogCategoryCreateRequest;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 
 class CategoryController extends BaseController
 {
@@ -14,23 +15,26 @@ class CategoryController extends BaseController
         return $paginator;
     }
 
-    public function store(Request $request)
+    public function store(BlogCategoryCreateRequest $request)
     {
-        $data = $request->all();
+        $data = $request->input();
         if (empty($data['slug'])) {
             $data['slug'] = Str::slug($data['title']);
         }
 
-        $item = BlogCategory::create($data);
+        $item = (new BlogCategory())->create($data);
 
         if ($item) {
-            return ['success' => 'Успішно створено', 'data' => $item];
+            return [
+                'success' => true,
+                'message' => 'Успішно збережено'
+            ];
         } else {
-            return ['msg' => 'Помилка створення'];
+            return ['message' => 'Помилка збереження'];
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(BlogCategoryUpdateRequest $request, $id)
     {
         $item = BlogCategory::find($id);
         if (empty($item)) {
